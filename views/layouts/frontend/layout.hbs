@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body style="background:rgb(255, 255, 255)">
+    <div class="wrap">
+      {{>frontend/_head}}
+      {{>frontend/_header}}
+      
+      {{{body}}}
+
+      {{>frontend/_footer}}
+      {{>frontend/_script}}
+
+      
+    <a href="#" class="radius scroll-top style1"><i class="fa fa-angle-up" aria-hidden="true"></i></a>
+    </div>
+  </body>
+</html>

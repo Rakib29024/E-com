@@ -3,6 +3,7 @@ var router = express.Router();
 //controllers
 var homeController=require('../controllers/homeController');
 var userController=require('../controllers/authenticate/userController');
+const { user_login_val,user_register_val }=require('../validations/userValidation');
 
 
 //test
@@ -20,14 +21,15 @@ router.get('/profile', homeController.my_profile);
 
 //userController
 router.get('/login', userController.login);
-router.post('/login', userController.post_login);
-router.post('/register', userController.post_register);
+router.post('/login', user_login_val, userController.post_login);
+router.get('/register', userController.register);
+router.post('/register', user_register_val,userController.post_register);
 
 
 
 
 // admin side
-router.get('/admin', function(req, res, next) {
+router.get('/admin',function(req, res, next) {
   res.render('backend/index', { layout:'backend/layout', title: 'Node JS Express Admin Side' });
 });
 

@@ -1,16 +1,14 @@
-
 var mongoose  = require('mongoose');
 var User=mongoose.model('User');
 var slugify = require('slugify');
 const { check, validationResult } = require('express-validator');
-const app = require('../../app');
 
 
 //login
 exports.login = (req,res,next)=>{
     var data=req.body;
     console.log(data);
-    res.render('frontend/login', {title: 'ecom' });
+    res.render('frontend/login', {title: 'ecom|registration' });
 }
 
 
@@ -19,22 +17,23 @@ exports.post_login = (req,res,next)=>{
     const errors=validationResult(req);
     var data=req.body;
     if(!errors.isEmpty()){
-        // console.log(data);
-        // res.send({errors:errors.mapped(),formdata:data});
-        res.render('frontend/login',{errors:errors.mapped(),formdata:data});
+        res.send({errors:errors.mapped(),formdata:data});
+        // res.render('frontend/login',{errors:errors.mapped(),formdata:data});
     }else{
-        console.log(data);
-        // res.render('frontend/login', {title: 'ecom' });
-        res.redirect('/');
+        User.findOne({ email: req.body.email }, function(err, existingUser){
+            if(err){
+                res.send(err);
+            }
+            res.status(200).send(existingUser);
+        });
+        // res.redirect('/');
     }
     
 }
 
 //register
 exports.register = (req,res,next)=>{
-    var data=req.body;
-    console.log(data);
-    res.render('frontend/register', {title: 'ecom' });
+    res.render('frontend/register', {title: 'ecom|registration' });
 }
 
 
@@ -43,25 +42,21 @@ exports.post_register = (req,res,next)=>{
     const errors=validationResult(req);
     var data=req.body;
     if(!errors.isEmpty()){
-        // console.log(data);
-        // res.send({errors:errors.mapped(),formdata:data});
-        res.render('frontend/register',{errors:errors.mapped(),formdata:data});
+        res.send({errors:errors.mapped(),formdata:data});
     }else{
-        console.log(data);
-        var user=new User();
-        user.name=req.body.name;
-        user.email=req.body.email;
-        user.contact=req.body.contact;
-        user.password=req.body.password;
-        user.slug=slugify(req.body.name);
-        user.save((err,doc)=>{
-            if(!err){
-                console.log("data inserted");
-                res.redirect('/');
-            }else{
-                console.log("error during data insertion:"+err);
-                res.redirect('/register');
+        var newUser=new User({
+            username:req.body.name,
+            email:req.body.email,
+            contact:req.body.contact,
+            password:req.body.password,
+            slug:slugify(req.body.name)
+        });
+        User.register(newUser,req.body.password,function(err,user){
+            if(err){
+                res.send({message:"error during data insertion:",err});
             }
+            console.log("data inserted");
+            res.status(201).send({message:'Success',createdUser:user});        
         });
     }
 

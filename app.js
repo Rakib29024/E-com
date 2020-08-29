@@ -4,7 +4,15 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var exphbs  = require('express-handlebars');
+var session = require('express-session'),
+    // LocalStrategy = require("passport-local"),
+    // passportLocalMongoose = require("passport-local-mongoose"),
+    passport = require("passport");
+
+//local set
 var db_connection=require('./database/db_conection');
+var User=require('./models/user');
+//require routes
 var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
 
@@ -28,6 +36,22 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
+//set session
+app.use(session({
+  secret:"Miss white is my cat",
+  resave: false,
+  saveUninitialized: false
+}));
+
+//passport initialize
+passport.use(User.createStrategy());
+// app.use(passport.initialize()); 
+// app.use(passport.session()); 
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
+//mount routes set up
 app.use('/', indexRouter);
 // app.use('/users', usersRouter);
 

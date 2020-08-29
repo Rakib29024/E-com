@@ -1,7 +1,7 @@
 //mogodb setup
 var mongoose  = require('mongoose');
 
-mongoose.connect('mongodb://localhost:27017/ecom',{ useNewUrlParser: true, useUnifiedTopology: true },(error)=>{
+mongoose.connect('mongodb://localhost:27017/ecom',{ useNewUrlParser: true, useUnifiedTopology: true ,useCreateIndex:true},(error)=>{
   if(!error){
     console.log('DB Conected');
   }
@@ -9,6 +9,4 @@ mongoose.connect('mongodb://localhost:27017/ecom',{ useNewUrlParser: true, useUn
     console.log("DB Conection Error");
   }
 });
-
-const User=require('../models/user');
 

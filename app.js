@@ -1,20 +1,22 @@
 var createError = require('http-errors');
 var express = require('express');
+var displayRoutes = require('express-routemap');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var exphbs  = require('express-handlebars');
 var session = require('express-session'),
-    // LocalStrategy = require("passport-local"),
-    // passportLocalMongoose = require("passport-local-mongoose"),
-    passport = require("passport");
+              // LocalStrategy = require("passport-local"),
+              // passportLocalMongoose = require("passport-local-mongoose"),
+              passport = require("passport");
 
 //local set
 var db_connection=require('./database/db_conection');
 var User=require('./models/user');
 //require routes
 var indexRouter = require('./routes/index');
-// var usersRouter = require('./routes/users');
+var usersRouter = require('./routes/user');
+var adminRouter = require('./routes/admin');
 
 var app = express();
 
@@ -41,19 +43,26 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(session({
   secret:"Miss white is my cat",
   resave: false,
-  saveUninitialized: false
+  saveUninitialized: true
 }));
 
 //passport initialize
+app.use(passport.initialize()); 
+app.use(passport.session()); 
+
 passport.use(User.createStrategy());
-// app.use(passport.initialize()); 
-// app.use(passport.session()); 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
 //mount routes set up
-app.use('/', indexRouter);
-// app.use('/users', usersRouter);
+app.use(indexRouter);
+app.use(usersRouter);
+app.use('/admin', adminRouter);
+//defaault route filter
+app.get('*',(req,res)=>{
+  res.redirect('/');
+});
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -71,5 +80,10 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+//custom listen for route list
+// app.listen(3000, () => {
+//   console.log('Web server started at port 3000!');
+//   displayRoutes(app);
+// });
 
 module.exports = app;

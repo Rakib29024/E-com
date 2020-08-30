@@ -2,7 +2,7 @@ const { check, validationResult } = require('express-validator');
 
 exports.user_login_val=[
     check('email','Invalid E-mail').notEmpty().isEmail(),
-    check('password','Invalid Password').notEmpty().isLength({min:6}),
+    check('password','Password must be greater than 5 digit').notEmpty().isLength({min:6}),
 ]
 
 exports.user_register_val=[

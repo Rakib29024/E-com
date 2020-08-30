@@ -1,27 +1,29 @@
-var user=require('../models/user');
+var mongoose  = require('mongoose');
+var User=mongoose.model('User');
+
 
 //index
-exports.index=function(req,res,next){
+exports.index=(req,res,next)=>{
     res.render('frontend/index', {title: 'ecom' });
 }
 
 //category
-exports.category=function(req,res,next){
+exports.category=(req,res,next)=>{
     res.render('frontend/category', {title: 'ecom' });
 }
 
 //cart
-exports.cart=function(req,res,next){
+exports.cart=(req,res,next)=>{
     res.render('frontend/cart', {title: 'ecom' });
 }
 
 //product-detail
-exports.product_detail=function(req,res,next){
+exports.product_detail=(req,res,next)=>{
     res.render('frontend/product_detail', {title: 'ecom' });
 }
 
 //about
-exports.about=function(req,res,next){
+exports.about=(req,res,next)=>{
     res.render('frontend/about', {title: 'ecom' });
 }
 

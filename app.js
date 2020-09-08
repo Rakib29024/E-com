@@ -12,7 +12,9 @@ var session = require('express-session'),
 
 //local set
 var db_connection=require('./database/db_conection');
+//models register
 var User=require('./models/user');
+var Category=require('./models/category');
 //require routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');

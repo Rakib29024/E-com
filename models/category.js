@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 //Define a schema
 var Schema = mongoose.Schema;
 
-var UserModelSchema = new Schema({
+var CategoryModelSchema = new Schema({
   title: {type: String, Trim:true, required: true},
   slug: {type: String, Trim:true, required: true},
   logo: {type: String, Trim:true, required: true},
@@ -12,4 +12,4 @@ var UserModelSchema = new Schema({
 });
 
 // export schema
-module.exports = mongoose.model('Category', UserModelSchema);
+module.exports = mongoose.model('Category', CategoryModelSchema);

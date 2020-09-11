@@ -1,7 +1,13 @@
 var mongoose  = require('mongoose');
 var User=mongoose.model('User');
 
-
+/*
+module.exports={
+    home:async()=>{
+        res.render('frontend/index', {title: 'ecom' });
+    },
+}
+*/
 //index
 exports.index=(req,res,next)=>{
     res.render('frontend/index', {title: 'ecom' });

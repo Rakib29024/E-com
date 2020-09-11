@@ -1,6 +1,8 @@
 var mongoose  = require('mongoose');
-var User=mongoose.model('User');
 var slugify = require('slugify');
+var passport = require("passport");
+
+var User=mongoose.model('User');
 const { check, validationResult } = require('express-validator');
 
 module.exports = {
@@ -17,13 +19,10 @@ module.exports = {
         if(!errors.isEmpty()){
             res.send({errors:errors.mapped(),formdata:data});
         }else{
-            await User.findOne({ email: req.body.email }, (err, existingUser)=>{
-                if(err){
-                    res.send(err);
-                }
-                passport.authenticate('local')(req,res,next);
-                res.status(200).send(existingUser);
-            });
+           await User.findOne({ email: req.body.email });
+           passport.authenticate('local', { successRedirect: '/',
+                                            failureRedirect: '/login' 
+                                        });
         }
         
     },

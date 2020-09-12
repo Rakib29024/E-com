@@ -27,6 +27,7 @@
     "slugify": "^1.4.0"
   },
   "devDependencies": {
+    "express-routemap": "^1.6.0",
     "faker": "^5.1.0",
     "nodemon": "^2.0.4"
   }

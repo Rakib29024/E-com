@@ -1,14 +1,16 @@
 //mogodb setup
 var mongoose  = require('mongoose');
+const {PORT,DB}=require('../config');
+
 const startConnection=()=>{
   try {
-    mongoose.connect('mongodb://localhost:27017/ecom',{ 
+    mongoose.connect(DB,{ 
       useNewUrlParser: true,
      useUnifiedTopology: true ,
      useCreateIndex:true
     },(error)=>{
     if(!error){
-      console.log('DB Conected');
+      console.log('DB Conected To:'+PORT);
     }
     else{
       console.log("DB Conection Failed");

@@ -1,4 +1,25 @@
 
-# GET http://localhost:3000/admin/categories
-# GET http://localhost:3000/admin/category/5f57b64b49d47c31cc8b7b27/show
+GET http://localhost:3000/admin/categories
+###
+GET http://localhost:3000/admin/category/5f57b64b49d47c31cc8b7b27/show
+###
 GET http://localhost:3000/admin/users
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email":"rakib.piit@gmail.com",
+    "password":"000"
+}
+
+###
+POST http://localhost:3000/register
+Content-Type: application/json
+
+{
+    "name": "raki1b290",
+    "email": "rakib.piit@gmail.com",
+    "contact": "01111111111",
+    "password": "000"
+}

@@ -19,10 +19,18 @@ module.exports = {
         if(!errors.isEmpty()){
             res.send({errors:errors.mapped(),formdata:data});
         }else{
-           await User.findOne({ email: req.body.email });
-           passport.authenticate('local', { successRedirect: '/',
-                                            failureRedirect: '/login' 
-                                        });
+           var user=await User.findOne({ email: req.body.email },(err,user)=>{
+            if(err){
+                res.send({message:"Error due to:",err});
+            }
+           });
+           if(!user){
+               res.status(200).send({message:'User Not Found'});
+            }
+            res.status(200).send({message:'Success',User:user});  
+        //    passport.authenticate('local', { successRedirect: '/',
+        //                                     failureRedirect: '/login' 
+        //                                 })(res,req,next);
         }
         
     },

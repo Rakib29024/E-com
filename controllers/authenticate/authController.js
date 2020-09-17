@@ -13,24 +13,25 @@ module.exports = {
         res.render('frontend/login', {title: 'ecom | Login' });
     },
     //login post
-    async post_login (req,res,next){
+    post_login (req,res,next){
         const errors=validationResult(req);
         var data=req.body;
         if(!errors.isEmpty()){
             res.send({errors:errors.mapped(),formdata:data});
         }else{
-           var user=await User.findOne({ email: req.body.email },(err,user)=>{
-            if(err){
-                res.send({message:"Error due to:",err});
-            }
-           });
-           if(!user){
-               res.status(200).send({message:'User Not Found'});
-            }
-            res.status(200).send({message:'Success',User:user});  
-        //    passport.authenticate('local', { successRedirect: '/',
-        //                                     failureRedirect: '/login' 
-        //                                 })(res,req,next);
+            passport.authenticate('local')(req, res, () => {
+                console.log('Autheticated');
+                User.findOne({
+                  username: req.body.username
+                }, (err, person) => {
+                  res.statusCode = 200;
+                  res.setHeader('Content-Type', 'application/json');
+                  res.json({
+                    success: true,
+                    status: 'Registration Successful!',
+                  });
+                });
+              })
         }
         
     },
@@ -64,7 +65,24 @@ module.exports = {
     },
     //logout
     logout (req,res,next){
-        req.logout();
-        res.status(200).send({message:'User Logged Out'})
+        if (req.session) {
+            req.logout();
+            req.session.destroy((err) => {
+              if (err) {
+                console.log(err);
+              } else {
+                res.clearCookie('session-id');
+                res.json({
+                  message: 'You are successfully logged out!'
+                });
+              }
+            });
+          } else {
+            var err = new Error('You are not logged in!');
+            err.status = 403;
+            next(err);
+          }
+        // req.logout();
+        // res.status(200).send({message:'User Logged Out'})
     }
 }

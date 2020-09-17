@@ -19,7 +19,7 @@ const CategoryController= require('../controllers/categoryController');
   router.get('/category/:id/show', CategoryController.show);
   router.get('/category/create', CategoryController.create);
   router.get('/category/:id/edit', CategoryController.edit);
-  router.post('/category/:id/store', CategoryController.store);
+  router.post('/category/store', CategoryController.store);
   router.put('/category/:id/update', CategoryController.update);
   router.delete('/category/:id/delete', CategoryController.delete);
 

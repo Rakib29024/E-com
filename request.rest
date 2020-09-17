@@ -1,15 +1,37 @@
-
+###=======================================category==============================
 GET http://localhost:3000/admin/categories
 ###
-GET http://localhost:3000/admin/category/5f57b64b49d47c31cc8b7b27/show
+
+GET http://localhost:3000/admin/category/5f63aa9ec5dc0818c0748181/show
+
 ###
+POST http://localhost:3000/admin/category/store
+Content-Type: application/json
+
+{
+    "title": "books",
+    "logo": "http://placeimg.com/640/480",
+    "status": "Active"
+}
+
+###===========================================user======================================
 GET http://localhost:3000/admin/users
+
 ###
 POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "email":"rakib.piit@gmail.com",
+    "email":"rakibpiit@gmail.com",
+    "password":"000"
+}
+
+###
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username":"raki1b290",
     "password":"000"
 }
 
@@ -19,7 +41,11 @@ Content-Type: application/json
 
 {
     "name": "raki1b290",
-    "email": "rakib.piit@gmail.com",
+    "email": "rakibpiit@gmail.com",
     "contact": "01111111111",
     "password": "000"
 }
+
+###
+GET  http://localhost:3000/logout
+

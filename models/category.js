@@ -5,8 +5,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var CategoryModelSchema = new Schema({
-  title: {type: String, Trim:true, required: true},
-  slug: {type: String, Trim:true, required: true},
+  title: {type: String, Trim:true, required: true,unique:true},
+  slug: {type: String, Trim:true, required: false},
   logo: {type: String, Trim:true, required: true},
   status: {type: String, Trim:true, required: true,default:'Active'}
 });

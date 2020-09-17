@@ -5,10 +5,9 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var exphbs  = require('express-handlebars');
-var session = require('express-session'),
-              // LocalStrategy = require("passport-local"),
-              // passportLocalMongoose = require("passport-local-mongoose"),
-              passport = require("passport");
+var passport = require("passport"),
+    session = require('express-session'),
+    LocalStrategy = require("passport-local").Strategy;
 
 //local set
 var db_connection=require('./database/db_conection');
@@ -43,16 +42,23 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //set session
 app.use(session({
-  secret:"Miss white is my cat",
-  resave: false,
-  saveUninitialized: true
+  name: 'session-id',
+  secret: '123-456-789',
+  saveUninitialized: false,
+  resave: false
 }));
 
 //passport initialize
 app.use(passport.initialize()); 
 app.use(passport.session()); 
 
-passport.use(User.createStrategy());
+// passport.use(new LocalStrategy(User.authenticate()));
+passport.use(new LocalStrategy(
+    {usernameField:"email", passwordField:"password"},
+    function(username, password, done) {
+        return done(null, false, {message:'Unable to login'})
+    }
+));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 

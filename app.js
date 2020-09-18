@@ -1,23 +1,27 @@
 var createError = require('http-errors');
 var express = require('express');
-// var displayRoutes = require('express-routemap');
+var displayRoutes = require('express-routemap');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var exphbs  = require('express-handlebars');
 var passport = require("passport"),
-    session = require('express-session'),
-    LocalStrategy = require("passport-local").Strategy;
+    session = require('express-session');
+    // LocalStrategy = require("passport-local").Strategy;
 
 //local set
-var db_connection=require('./database/db_conection');
+require('./database/db_conection');
+
 //models register
-var User=require('./models/user');
-var Category=require('./models/category');
+require('./models/user');
+require('./models/category');
+
+
 //require routes
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/user');
 var adminRouter = require('./routes/admin');
+
 
 var app = express();
 
@@ -40,27 +44,31 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-//set session
+//set passport session
 app.use(session({
   name: 'session-id',
   secret: '123-456-789',
   saveUninitialized: false,
-  resave: false
+  resave: false,
+  cookie:{
+    maxAge:1000*60*60*24
+  }
 }));
+
+// passport requirement
+require('./config/passport');
 
 //passport initialize
 app.use(passport.initialize()); 
 app.use(passport.session()); 
 
-// passport.use(new LocalStrategy(User.authenticate()));
-passport.use(new LocalStrategy(
-    {usernameField:"email", passwordField:"password"},
-    function(username, password, done) {
-        return done(null, false, {message:'Unable to login'})
-    }
-));
-passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser());
+app.use((req,res,next)=>{
+  console.log(req.session);
+  console.log(req.user);
+  // displayRoutes(app);
+  next();
+});
+
 
 //mount routes set up
 app.use(indexRouter);

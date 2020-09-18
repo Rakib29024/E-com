@@ -1,7 +1,7 @@
 const { check, validationResult } = require('express-validator');
 
 exports.user_login_val=[
-    check('email','Invalid E-mail').isString().trim().notEmpty().isEmail(),
+    check('username','Invalid E-mail').isString().trim().notEmpty(),
     check('password','Password must be greater than 3 digit').trim().notEmpty().isLength({min:3}),
 ]
 

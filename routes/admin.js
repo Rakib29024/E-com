@@ -1,27 +1,30 @@
-var router = require('express').Router();
+var adminRouter = require('express').Router();
 
-//custom
+
+//controller
 const UserController = require('../controllers/userController');
 const CategoryController= require('../controllers/categoryController');
-
+//middleware
+var {isAuth}=require('../middleware/authMiddleware');
+adminRouter.use(isAuth);
 // ===============================admin side============================
   //users
-  router.get('/users', UserController.index);
-  router.get('/user/:id/show', UserController.show);
-  router.get('/user/create', UserController.create);
-  router.get('/user/:id/edit', UserController.edit);
-  router.post('/user/:id/store', UserController.store);
-  router.put('/user/:id/update', UserController.update);
-  router.delete('/user/:id/delete', UserController.delete);
+  adminRouter.get('/users', UserController.index);
+  adminRouter.get('/user/:id/show', UserController.show);
+  adminRouter.get('/user/create', UserController.create);
+  adminRouter.get('/user/:id/edit', UserController.edit);
+  adminRouter.post('/user/:id/store', UserController.store);
+  adminRouter.put('/user/:id/update', UserController.update);
+  adminRouter.delete('/user/:id/delete', UserController.delete);
 
   //users
-  router.get('/categories', CategoryController.index);
-  router.get('/category/:id/show', CategoryController.show);
-  router.get('/category/create', CategoryController.create);
-  router.get('/category/:id/edit', CategoryController.edit);
-  router.post('/category/store', CategoryController.store);
-  router.put('/category/:id/update', CategoryController.update);
-  router.delete('/category/:id/delete', CategoryController.delete);
+  adminRouter.get('/categories', CategoryController.index);
+  adminRouter.get('/category/:id/show', CategoryController.show);
+  adminRouter.get('/category/create', CategoryController.create);
+  adminRouter.get('/category/:id/edit', CategoryController.edit);
+  adminRouter.post('/category/store', CategoryController.store);
+  adminRouter.put('/category/:id/update', CategoryController.update);
+  adminRouter.delete('/category/:id/delete', CategoryController.delete);
 
 
-  module.exports = router;
+  module.exports = adminRouter;

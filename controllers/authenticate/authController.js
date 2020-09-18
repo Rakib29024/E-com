@@ -24,11 +24,12 @@ module.exports = {
                 User.findOne({
                   username: req.body.username
                 }, (err, person) => {
+                  console.log(person);
                   res.statusCode = 200;
                   res.setHeader('Content-Type', 'application/json');
                   res.json({
                     success: true,
-                    status: 'Registration Successful!',
+                    status: 'Login Successful!',
                   });
                 });
               })
@@ -65,23 +66,23 @@ module.exports = {
     },
     //logout
     logout (req,res,next){
-        if (req.session) {
-            req.logout();
-            req.session.destroy((err) => {
-              if (err) {
-                console.log(err);
-              } else {
-                res.clearCookie('session-id');
-                res.json({
-                  message: 'You are successfully logged out!'
-                });
-              }
-            });
-          } else {
-            var err = new Error('You are not logged in!');
-            err.status = 403;
-            next(err);
-          }
+        if (req.isAuthenticated()) {
+          req.logout();
+          req.session.destroy((err) => {
+            if (err) {
+              console.log(err);
+            } else {
+              res.clearCookie('session-id');
+              res.json({
+                message: 'You are successfully logged out!'
+              });
+            }
+          });
+        } else {
+          var err = new Error('You are not logged in!');
+          err.status = 403;
+          next(err);
+        }
         // req.logout();
         // res.status(200).send({message:'User Logged Out'})
     }

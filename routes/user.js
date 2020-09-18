@@ -1,18 +1,20 @@
-var router = require('express').Router();
+var usersRouter = require('express').Router();
 
-//custom
+//Controller
 const AuthController = require('../controllers/authenticate/authController');
 const { 
         user_login_val,
         user_register_val
       }=require('../validations/userValidation');
-
+//Middleware
+var {isAuth}=require('../middleware/authMiddleware');
+// usersRouter.use(isAuth);
 //=========================authentication==========================
 //userAuthController
-router.get('/login', AuthController.login);
-router.post('/login',user_login_val, AuthController.post_login);
-router.get('/logout', AuthController.logout);
-router.get('/register', AuthController.register);
-router.post('/register', user_register_val,AuthController.post_register);
+usersRouter.get('/login',isAuth, AuthController.login);
+usersRouter.post('/login',user_login_val, AuthController.post_login);
+usersRouter.get('/logout', AuthController.logout);
+usersRouter.get('/register', AuthController.register);
+usersRouter.post('/register', user_register_val,AuthController.post_register);
 
-module.exports = router;
+module.exports = usersRouter;

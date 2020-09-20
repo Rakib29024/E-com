@@ -48,18 +48,21 @@ module.exports = {
             res.send({errors:errors.mapped(),formdata:data});
         }else{
             var newUser=new User({
-                username:req.body.name,
+                username:req.body.username,
                 email:req.body.email,
                 contact:req.body.contact,
                 password:req.body.password,
-                slug:slugify(req.body.name)
+                slug:slugify(req.body.username)
             });
             await User.register(newUser,req.body.password,function(err,user){
                 if(err){
-                    res.send({message:"error during data insertion:",err});
+                    return res.status(500).json({message:"error during data insertion:",err});
                 }
                 console.log("data inserted");
-                res.status(201).send({message:'Success',createdUser:user});        
+                passport.authenticate('local')(req, res, () => {
+                  console.log('Autheticated')
+                  res.status(201).json({success: true});
+                })
             });
         }
 

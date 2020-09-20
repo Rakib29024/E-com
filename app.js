@@ -7,13 +7,13 @@ var logger = require('morgan');
 var exphbs  = require('express-handlebars');
 var passport = require("passport"),
     session = require('express-session');
-    // LocalStrategy = require("passport-local").Strategy;
+    LocalStrategy = require("passport-local").Strategy;
 
 //local set
 require('./database/db_conection');
 
 //models register
-require('./models/user');
+var User=require('./models/user');
 require('./models/category');
 
 

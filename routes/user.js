@@ -2,6 +2,7 @@ var usersRouter = require('express').Router();
 
 //Controller
 const AuthController = require('../controllers/authenticate/authController');
+//validator
 const { 
         user_login_val,
         user_register_val

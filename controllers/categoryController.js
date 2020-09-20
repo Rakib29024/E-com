@@ -10,8 +10,8 @@ module.exports={
     },
 
     show:async(req,res,next)=>{
-        let categories=await Category.findById(req.params.id);
-        res.status(200).send({categories});
+        let category=await Category.findById(req.params.id);
+        res.status(200).send({category});
     },
 
     create:(req,res,next)=>{
@@ -19,36 +19,68 @@ module.exports={
     },
 
     edit:async(req,res,next)=>{
-        let categories=await Category.findById(req.params.id);
-        res.status(200).send({categories});
+        let category=await Category.findById(req.params.id);
+        res.status(200).send({category});
     },
+
     store:async(req,res,next)=>{
         const errors=validationResult(req);
-        var data=req.body;
         if(!errors.isEmpty()){
-            res.json({errors:errors.mapped(),formdata:data});
-        }else{
-            var newCategory=new Category({
-                title:req.body.title,
-                logo:req.body.logo,
-                status:req.body.status,
-                slug:slugify(req.body.title)
-            });
-            await newCategory.save((err,storeCategory)=>{
-                if(err){
-                    res.json({error:err});
-                }
-                console.log("data inserted");
-                 res.json({category:storeCategory});
-            });
+            return res.json({error:errors.mapped(),formData:req.body});
         }
+        var newCategory = new Category({
+            title: req.body.title,
+            logo: req.body.logo,
+            status: req.body.status,
+            slug: slugify(req.body.title)
+        });
+        await newCategory.save((err, storeCategory) => {
+            if (err) {
+                return res.json({
+                    error: err
+                });
+            }
+            return res.json({
+                category: storeCategory
+            });
+        });
+        
     },
+
     update:async(req,res,next)=>{
-        let categories=await Category.findById(req.params.id);
-        res.status(200).send({categories});
+        const errors=validationResult(req);
+        if(!errors.isEmpty()){
+            return res.json({error:errors.mapped(),formData:req.body});
+        }
+        await Category.findByIdAndUpdate(req.params.id, {
+                status: req.body.status,
+                title: req.body.title,
+                logo: req.body.logo
+            },
+            (err, category) => {
+                if (err) {
+                    return res.json({
+                        error: err
+                    });
+                }
+                if(!category){
+                    return res.json({message:"Categoiry doesn't exits"});
+                }
+                return res.json({
+                    success: true,
+                    message: 'Category Updated'
+                });
+            });
+        
+
     },
+
     delete:async(req,res,next)=>{
-        let categories=await Category.findById(req.params.id);
-        res.status(200).send({categories});
+        await Category.findByIdAndRemove(req.params.id,(err,category)=>{
+            if(err){
+                return res.json({error:err});
+            }
+            return res.json({success:true,message:"Category Successfully deleted"});
+        });
     }
 }

@@ -10,7 +10,9 @@ var UserModelSchema = new Schema(
     username: {type: String, required: true},
     type: {type: String, required: true,default: 'user'},
     email: {type: String, required: true},
-    contact: {type: String, required: true}
+    contact: {type: String, required: true},
+    hash:{type:String},
+    salt:{type:String}
   },
   { 
     timestamps:true 

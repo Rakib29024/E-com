@@ -1,18 +1,31 @@
 ###=======================================category==============================
 GET http://localhost:3000/admin/categories
-###
-
-GET http://localhost:3000/admin/category/5f63aa9ec5dc0818c0748181/show
 
 ###
 POST http://localhost:3000/admin/category/store
 Content-Type: application/json
 
 {
-    "title": "books",
+    "title": "electronics",
     "logo": "http://placeimg.com/640/480",
+    "status": "Inactive"
+}
+###
+GET http://localhost:3000/admin/category/5f67a3e5f8a97808842f0c9a/show
+
+###
+PUT http://localhost:3000/admin/category/5f67a3e5f8a97808842f0c9a/update
+Content-Type: application/json
+
+{
+    "title": "electronics",
+    "logo": "http://placeimg.com/640/200",
     "status": "Active"
 }
+
+###
+DELETE  http://localhost:3000/admin//category/5f67a3e5f8a97808842f0c9a/delete
+
 
 ###===========================================user======================================
 GET http://localhost:3000/admin/users
@@ -40,7 +53,7 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-    "name": "raki1b290",
+    "username": "raki1b290",
     "email": "rakibpiit@gmail.com",
     "contact": "01111111111",
     "password": "000"

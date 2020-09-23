@@ -6,4 +6,5 @@ module.exports={
     KEY : process.env.APP_KEY,
     DB : process.env.APP_DATABASE,
     PORT : process.env.APP_PORT,
+    SECRATE : process.env.APP_KEY
 };

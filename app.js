@@ -8,9 +8,12 @@ var exphbs  = require('express-handlebars');
 var passport = require("passport"),
     session = require('express-session');
     LocalStrategy = require("passport-local").Strategy;
+const {SECRATE} =require('./config/index');
 
 //local set
 require('./database/db_conection');
+// passport requirement
+require('./config/passport');
 
 //models register
 var User=require('./models/user');
@@ -46,17 +49,15 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //set passport session
 app.use(session({
-  name: 'session-id',
-  secret: '123-456-789',
-  saveUninitialized: false,
-  resave: false,
+  name: 'secrate-session',
+  secret: SECRATE,
+  saveUninitialized: true,
+  resave: true,
   cookie:{
     maxAge:1000*60*60*24
   }
 }));
 
-// passport requirement
-require('./config/passport');
 
 //passport initialize
 app.use(passport.initialize()); 
@@ -64,7 +65,7 @@ app.use(passport.session());
 
 app.use((req,res,next)=>{
   console.log(req.session);
-  console.log(req.user);
+  // console.log(req.user);
   // displayRoutes(app);
   next();
 });
@@ -96,11 +97,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-//custom listen for route list
-// app.listen(3000, () => {
-//   console.log('Web server started at port 3000!');
-//   displayRoutes(app);
-// });
 
 
 module.exports = app;

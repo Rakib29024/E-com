@@ -2,6 +2,8 @@ var mongoose  = require('mongoose');
 var slugify = require('slugify');
 var passport = require("passport");
 
+const {genPassword}=require('../../lib/passwordValid');
+
 var User=mongoose.model('User');
 const { check, validationResult } = require('express-validator');
 
@@ -20,16 +22,18 @@ module.exports = {
             res.send({errors:errors.mapped(),formdata:data});
         }else{
             passport.authenticate('local')(req, res, () => {
-                console.log('Autheticated');
                 User.findOne({
                   username: req.body.username
                 }, (err, person) => {
-                  console.log(person);
-                  res.statusCode = 200;
-                  res.setHeader('Content-Type', 'application/json');
-                  res.json({
+                  if(err){
+                    return res.json({
+                      status: 'Login Failed!'
+                    });
+                  }
+                  return res.json({
                     success: true,
                     status: 'Login Successful!',
+                    user:person
                   });
                 });
               })
@@ -51,7 +55,7 @@ module.exports = {
                 username:req.body.username,
                 email:req.body.email,
                 contact:req.body.contact,
-                password:req.body.password,
+                password:genPassword(req.body.password),
                 slug:slugify(req.body.username)
             });
             await User.register(newUser,req.body.password,function(err,user){
@@ -59,10 +63,12 @@ module.exports = {
                     return res.status(500).json({message:"error during data insertion:",err});
                 }
                 console.log("data inserted");
-                passport.authenticate('local')(req, res, () => {
-                  console.log('Autheticated')
-                  res.status(201).json({success: true});
-                })
+                passport.authenticate('local')(req, res, (err) => {
+                  if(err){
+                    return res.json({message:"Authentication failed"});
+                  }
+                  return res.status(201).json({success: "Autheticated"});
+                });
             });
         }
 

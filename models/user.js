@@ -12,13 +12,17 @@ var UserModelSchema = new Schema(
     email: {type: String, required: true},
     contact: {type: String, required: true},
     hash:{type:String},
+    password:{type:String},
     salt:{type:String}
   },
   { 
     timestamps:true 
   }
 );
-
+//methods
+// UserModelSchema.methods.hash_salt = ()=> {
+//   return this.password;
+// };
 // plugin for passport-local-mongoose 
 UserModelSchema.plugin(passportLocalMongoose); 
 // export schema

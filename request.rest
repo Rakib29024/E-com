@@ -44,7 +44,7 @@ POST http://localhost:3000/login
 Content-Type: application/json
 
 {
-    "username":"raki1b290",
+    "username":"rakib",
     "password":"000"
 }
 
@@ -53,7 +53,7 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-    "username": "raki1b290",
+    "username": "rakib1",
     "email": "rakibpiit@gmail.com",
     "contact": "01111111111",
     "password": "000"

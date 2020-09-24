@@ -8,8 +8,8 @@ const CategoryController= require('../controllers/categoryController');
 const {category_store_val,category_update_val}=require('../validations/categoryValidation');
 //middleware
 var {isAuth,isAdmin}=require('../middleware/authMiddleware');
-// adminRouter.use(isAuth);
-// usersRouter.use(isAdmin);
+adminRouter.use(isAuth);
+adminRouter.use(isAdmin);
 
 // ===============================admin side============================
   //users

@@ -39,7 +39,16 @@ Content-Type: application/json
     "password":"000"
 }
 
-###
+### admin
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "username":"rakib4",
+    "password":"000"
+}
+
+### user
 POST http://localhost:3000/login
 Content-Type: application/json
 
@@ -53,7 +62,8 @@ POST http://localhost:3000/register
 Content-Type: application/json
 
 {
-    "username": "rakib1",
+    "username": "rakib4",
+    "type":"admin",
     "email": "rakibpiit@gmail.com",
     "contact": "01111111111",
     "password": "000"

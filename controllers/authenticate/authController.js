@@ -53,6 +53,7 @@ module.exports = {
         }else{
             var newUser=new User({
                 username:req.body.username,
+                type:req.body.type,
                 email:req.body.email,
                 contact:req.body.contact,
                 password:genPassword(req.body.password),

@@ -6,8 +6,9 @@ module.exports={
         return next();
     }
     ,
-    isAdmin:()=>{
-        if(!req.isAuthenticated() && req.user.type!=='admin'){
+    isAdmin:(req,res,next)=>{
+        console.log(req.user.type!=="admin");
+        if(req.user.type!=="admin"){
             return res.status(401).json({message:'You are not Authorized'});
         }
         return next();
